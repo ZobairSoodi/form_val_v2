@@ -66,8 +66,9 @@
         <tr>
             <td>Title</td>
             <td>Author</td>
+            <td>Email</td>
             <td>Price</td>
-            <td>Publication Date</td>
+            <td>Pub Date</td>
             <td>Language</td>
             <td>Type</td>
             <td>Controls</td>
@@ -90,10 +91,26 @@
         var table = document.getElementById("table");
 
         class Books{
-            constructor(title, author, email_author, price, pud_date,){
-
+            constructor(title, author, email_author, price, pub_date, lang, type){
+                this.title = title;
+                this.author = author;
+                this.email_author = email_author;
+                this.price = price;
+                this.pub_date = pub_date;
+                this.lang = lang;
+                this.type = type;
             }
         }
+
+        var list_local = [];
+        var temp_list = [];
+        temp_list.push(JSON.parse(localStorage.getItem("list")));
+        for(i=0;i<temp_list.length;i++){
+            var backup_book = new Books(temp_list[i].title,temp_list[i].author,temp_list[i].email_author,temp_list[i].price,temp_list[i].pub_date,temp_list[i].lang,temp_list[i].type)
+            list_local.push(backup_book);
+        }
+
+        var book;
 
         function validate(e) {
             e.preventDefault();
@@ -192,9 +209,6 @@
                 type_par.style.color = "green";
             }
             else {
-                if (dlt.classList.contains("dlt_btn")) {
-                    dlt.closest("tr").remove();
-                }
                 form_not_valid++;
                 type_par.innerHTML = "please select a type!";
                 type_par.style.color = "red";
@@ -202,23 +216,31 @@
 
             //insert row
             if (form_not_valid == 0) {
-                var row = table.insertRow();
-                row.insertCell(0).innerHTML = title.value;
-                row.insertCell(1).innerHTML = author.value;
-                row.insertCell(2).innerHTML = price.value;
-                row.insertCell(3).innerHTML = pub.value;
-                var index = lang.selectedIndex;
-                row.insertCell(4).innerHTML = lang.options[index].value;
-                row.insertCell(5).innerHTML = "<input class='edit_btn' onclick='edit_row(this)' type='button' value='Edit'>" +
-                    "<input class='dlt_btn' onclick='dlt_row(this)' type='button' value='Delete'>";
-                
-                //type
+
                 var temp_cell = "";
                 for (var i = 0; i < type.length; i++) {
                     if (type[i].checked) {
                         temp_cell = type[i].value;
                     }
                 }
+                
+                var index = lang.selectedIndex;
+
+                book = new Books(title.value, author.value, email_author.value, price.value, pub.value, lang.options[index].value, temp_cell)
+                list_local.push(book);
+                localStorage.setItem("list", JSON.stringify(list_local));
+                
+                var row = table.insertRow();
+                row.insertCell(0).innerHTML = title.value;
+                row.insertCell(1).innerHTML = author.value;
+                row.insertCell(2).innerHTML = price.value;
+                row.insertCell(3).innerHTML = pub.value;
+                row.insertCell(4).innerHTML = lang.options[index].value;
+                row.insertCell(5).innerHTML = "<input class='edit_btn' onclick='edit_row(this)' type='button' value='Edit'>" +
+                    "<input class='dlt_btn' onclick='dlt_row(this)' type='button' value='Delete'>";
+                
+                //type
+                
                 row.insertCell(5).innerHTML = temp_cell;
             }
         }
