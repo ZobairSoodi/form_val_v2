@@ -62,8 +62,8 @@
         <input type="submit" value="Submit" id="submit_btn">
     </form>
 
-    <table id="table">
-        <tr>
+    <table>
+        <thead>
             <td>Title</td>
             <td>Author</td>
             <td>Email</td>
@@ -72,7 +72,10 @@
             <td>Language</td>
             <td>Type</td>
             <td>Controls</td>
-        </tr>
+        </thead>
+        <tbody id="table">
+
+        </tbody>
     </table>
 
     <script>
@@ -89,7 +92,7 @@
         var max_length = 30;
         var is_checked = false;
         var table = document.getElementById("table");
-        var book;
+        var book;        
 
         class Books{
             constructor(title, author, email_author, price, pub_date, lang, type){
@@ -103,13 +106,39 @@
             }
         }
 
+        ////// this is some unnecessary 7ri9 d ras //////
+        if(localStorage.getItem("list")==null){
+            var initial_book = new Books("title", "author", "email", "price", "date", "lang", "type");
+            var test = [initial_book]
+            localStorage.setItem("list", JSON.stringify(test));
+        }
+        //////////////////////////////////////////////////
+
         var list_local = [];
-        var temp_list = [];
-        temp_list.push(JSON.parse(localStorage.getItem("list")));
-        for(i=0;i<temp_list[0].length;i++){
-            var backup_book = new Books(temp_list[0][i].title,temp_list[0][i].author,temp_list[0][i].email_author,temp_list[0][i].price,temp_list[0][i].pub_date,temp_list[0][i].lang,temp_list[0][i].type)
+        var temp_list = "";
+        temp_list = JSON.parse(localStorage.getItem("list"));
+        for(i=0;i<temp_list.length;i++){
+            var backup_book = new Books(temp_list[i].title,temp_list[i].author,temp_list[i].email_author,temp_list[i].price,temp_list[i].pub_date,temp_list[i].lang,temp_list[i].type)
             list_local.push(backup_book);
         }
+
+        function fill_table(){
+            for(var i=0;i<list_local.length;i++){
+            var row = table.insertRow();
+            row.insertCell(0).innerHTML = list_local[i].title;
+            row.insertCell(1).innerHTML = list_local[i].author;
+            row.insertCell(2).innerHTML = list_local[i].email_author;
+            row.insertCell(3).innerHTML = list_local[i].price;
+            row.insertCell(4).innerHTML = list_local[i].pub_date;
+            row.insertCell(5).innerHTML = list_local[i].lang;
+            row.insertCell(6).innerHTML = "<input class='edit_btn' onclick='edit_row(this)' type='button' value='Edit'>" +
+                "<input class='dlt_btn' onclick='dlt_row(this)' type='button' value='Delete'>";
+            
+            //type
+            row.insertCell(6).innerHTML = list_local[i].type;
+        }
+        }
+        fill_table();
 
         function validate(e) {
             e.preventDefault();
@@ -228,21 +257,11 @@
                 book = new Books(title.value, author.value, email_author.value, price.value, pub.value, lang.options[index].value, temp_cell)
                 list_local.push(book);
                 localStorage.setItem("list", JSON.stringify(list_local));
-                
-                var row = table.insertRow();
-                row.insertCell(0).innerHTML = title.value;
-                row.insertCell(1).innerHTML = author.value;
-                row.insertCell(2).innerHTML = price.value;
-                row.insertCell(3).innerHTML = pub.value;
-                row.insertCell(4).innerHTML = lang.options[index].value;
-                row.insertCell(5).innerHTML = "<input class='edit_btn' onclick='edit_row(this)' type='button' value='Edit'>" +
-                    "<input class='dlt_btn' onclick='dlt_row(this)' type='button' value='Delete'>";
-                
-                //type
-                
-                row.insertCell(5).innerHTML = temp_cell;
+                table.innerHTML = "";
+                fill_table()
             }
         }
+        
         // document.getElementById("table").addEventListener("click", function(e){
         //     var dlt = e.target;
         //     if(dlt.classList.contains("dlt_btn")){
