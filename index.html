@@ -106,21 +106,17 @@
             }
         }
 
-        ////// this is some unnecessary 7ri9 d ras //////
-        if(localStorage.getItem("list")==null){
-            var initial_book = new Books("title", "author", "email", "price", "date", "lang", "type");
-            var test = [initial_book]
-            localStorage.setItem("list", JSON.stringify(test));
-        }
-        //////////////////////////////////////////////////
-
         var list_local = [];
         var temp_list = "";
         temp_list = JSON.parse(localStorage.getItem("list"));
-        for(i=0;i<temp_list.length;i++){
-            var backup_book = new Books(temp_list[i].title,temp_list[i].author,temp_list[i].email_author,temp_list[i].price,temp_list[i].pub_date,temp_list[i].lang,temp_list[i].type)
-            list_local.push(backup_book);
+        if(temp_list!=null)
+        {
+            for(i=0;i<temp_list.length;i++){
+                var backup_book = new Books(temp_list[i].title,temp_list[i].author,temp_list[i].email_author,temp_list[i].price,temp_list[i].pub_date,temp_list[i].lang,temp_list[i].type)
+                list_local.push(backup_book);
+            }
         }
+        
 
         function fill_table(){
             for(var i=0;i<list_local.length;i++){
@@ -258,7 +254,7 @@
                 list_local.push(book);
                 localStorage.setItem("list", JSON.stringify(list_local));
                 table.innerHTML = "";
-                fill_table()
+                fill_table();
             }
         }
         
