@@ -290,18 +290,20 @@
 
         // Edit function;
         function edit_row(r) {
-            var i = r.parentNode.parentNode.rowIndex;
+            var i = r.parentNode.parentNode.rowIndex-1;
             var row = table.rows[i];
             if (r.value == "Edit") {
+                // Type
+                
                 title.value = row.cells[0].innerHTML;
                 author.value = row.cells[1].innerHTML;
-                price.value = row.cells[2].innerHTML;
-                pub.value = row.cells[3].innerHTML;
-                lang.value = row.cells[4].innerHTML;
-
-                // Type
+                email_author.value = row.cells[2].innerHTML;
+                price.value = row.cells[3].innerHTML;
+                pub.value = row.cells[4].innerHTML;
+                lang.value = row.cells[5].innerHTML;
+                
                 for (var i = 0; i < type.length; i++) {
-                    if (row.cells[5].innerHTML == type[i].value) {
+                    if (row.cells[6].innerHTML == type[i].value) {
                         type[i].checked = true;
                     }
                 }
@@ -309,14 +311,15 @@
                 document.getElementById("submit_btn").setAttribute("disabled", "true");
             }
             else {
-                row.cells[0].innerHTML = title.value;
-                row.cells[1].innerHTML = author.value;
-                row.cells[2].innerHTML = price.value;
-                row.cells[3].innerHTML = pub.value;
-                row.cells[4].innerHTML = lang.options[lang.selectedIndex].value;
-                for (var i = 0; i < type.length; i++) {
-                    if (type[i].checked) {
-                        row.cells[5] = type[i].value;
+                list_local[i].title = title.value;
+                list_local[i].author = author.value;
+                list_local[i].email_author = price.value;
+                list_local[i].price = email_author.value;
+                list_local[i].pub_date = pub.value;
+                list_local[i].lang = lang.value;
+                for (var k = 0; k < type.length; k++) {
+                    if (type[k].checked) {
+                        list_local[i].lang = type[k].value;
                     }
                 }
                 r.value = "Edit";
