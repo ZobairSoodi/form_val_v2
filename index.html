@@ -279,7 +279,7 @@
         // Delete function;
         function dlt_row(r) {
             if(confirm("")){
-                var i = r.parentNode.parentNode.rowIndex;
+                var i = r.parentNode.parentNode.rowIndex-1;
                 list_local.splice(i,1);
                 sort_table();
                 localStorage.setItem("list", JSON.stringify(list_local));
@@ -291,6 +291,7 @@
         // Edit function;
         function edit_row(r) {
             var i = r.parentNode.parentNode.rowIndex-1;
+            var dlt_disable = r.nextElementSibling;
             var row = table.rows[i];
             if (r.value == "Edit") {
                 // Type
@@ -307,22 +308,27 @@
                         type[i].checked = true;
                     }
                 }
-                r.value = "Save"
+                r.value = "Save";
+                dlt_disable.setAttribute("disabled", "true");
                 document.getElementById("submit_btn").setAttribute("disabled", "true");
             }
             else {
                 list_local[i].title = title.value;
                 list_local[i].author = author.value;
-                list_local[i].email_author = price.value;
-                list_local[i].price = email_author.value;
+                list_local[i].email_author = email_author.value;
+                list_local[i].price = price.value;
                 list_local[i].pub_date = pub.value;
                 list_local[i].lang = lang.value;
                 for (var k = 0; k < type.length; k++) {
                     if (type[k].checked) {
-                        list_local[i].lang = type[k].value;
+                        list_local[i].type = type[k].value;
                     }
                 }
+                table.innerHTML = "";
+                localStorage.setItem("list", JSON.stringify(list_local));
+                fill_table();
                 r.value = "Edit";
+                dlt_disable.removeAttribute("disabled");
                 document.getElementById("submit_btn").removeAttribute("disabled")
             }
         }
