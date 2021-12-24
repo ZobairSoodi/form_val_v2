@@ -136,6 +136,14 @@
         }
         fill_table();
 
+        function sort_table(){
+            list_local.sort(function(a,b){
+                if(a.title < b.title){
+                    return -1;
+                }
+            })
+        }
+
         function validate(e) {
             e.preventDefault();
             var form_not_valid = 0;
@@ -252,12 +260,15 @@
 
                 book = new Books(title.value, author.value, email_author.value, price.value, pub.value, lang.options[index].value, temp_cell)
                 list_local.push(book);
+                sort_table();
                 localStorage.setItem("list", JSON.stringify(list_local));
                 table.innerHTML = "";
                 fill_table();
             }
         }
         
+        
+
         // document.getElementById("table").addEventListener("click", function(e){
         //     var dlt = e.target;
         //     if(dlt.classList.contains("dlt_btn")){
@@ -269,7 +280,11 @@
         function dlt_row(r) {
             if(confirm("")){
                 var i = r.parentNode.parentNode.rowIndex;
-                table.deleteRow(i);
+                list_local.splice(i,1);
+                sort_table();
+                localStorage.setItem("list", JSON.stringify(list_local));
+                table.innerHTML = "";
+                fill_table();
             }
         }
 
