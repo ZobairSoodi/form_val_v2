@@ -109,6 +109,9 @@
                 this.lang = lang;
                 this.type = type;
             }
+            bookDetails(){
+                return `L'ouvrage '${this.title}' est un '${this.type}' en langue '${this.lang}', écrit par '${this.author}' et publié le '${this.pub_date}'. Le prix de '${this.title}' est de '${this.price}' Dhs.`
+            }
         }
 
         var list_local = [];
@@ -263,8 +266,10 @@
                 
                 var index = lang.selectedIndex;
 
-                book = new Books(title.value, author.value, email_author.value, price.value, pub.value, lang.options[index].value, temp_cell)
+                book = new Books(title.value, author.value, email_author.value, price.value, pub.value, lang.options[index].value, temp_cell);
                 list_local.push(book);
+                message.innerHTML = book.bookDetails();
+                
                 sort_table();
                 localStorage.setItem("list", JSON.stringify(list_local));
                 table.innerHTML = "";
