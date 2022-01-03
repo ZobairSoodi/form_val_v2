@@ -61,22 +61,25 @@
 
         <input type="submit" value="Submit" id="submit_btn">
     </form>
-
-    <table>
-        <thead>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Email</td>
-            <td>Price</td>
-            <td>Pub Date</td>
-            <td>Language</td>
-            <td>Type</td>
-            <td>Controls</td>
-        </thead>
-        <tbody id="table">
-
-        </tbody>
-    </table>
+    <p id="message"></p>
+    <div id="print_div">
+        <table>
+            <thead>
+                <td>Title</td>
+                <td>Author</td>
+                <td>Email</td>
+                <td>Price</td>
+                <td>Pub Date</td>
+                <td>Language</td>
+                <td>Type</td>
+                <td>Controls</td>
+            </thead>
+            <tbody id="table">
+    
+            </tbody>
+        </table>
+        <input type="button" value="print" onclick="print_btn()">
+    </div>
 
     <script>
         var form_el = document.getElementsByTagName("form")[0];
@@ -92,7 +95,9 @@
         var max_length = 30;
         var is_checked = false;
         var table = document.getElementById("table");
-        var book;        
+        var message = document.getElementById("message");
+        var print_div = document.getElementById("print_div");
+        var book;
 
         class Books{
             constructor(title, author, email_author, price, pub_date, lang, type){
@@ -331,6 +336,14 @@
                 dlt_disable.removeAttribute("disabled");
                 document.getElementById("submit_btn").removeAttribute("disabled")
             }
+        }
+
+        function print_btn(){
+            var temp_div = print_div.innerHTML;
+            var temp_body = document.body.innerHTML;
+            document.body.innerHTML = temp_div;
+            window.print();
+            document.body.innerHTML = temp_body;
         }
 
         form_el.addEventListener("submit", validate)
