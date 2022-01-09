@@ -96,8 +96,11 @@
         var max_length = 30;
         var is_checked = false;
         var table = document.getElementById("table");
+<<<<<<< Updated upstream
         var message = document.getElementById("message");
         var print_div = document.getElementById("print_div");
+=======
+>>>>>>> Stashed changes
         var book;
 
         class Books{
@@ -115,6 +118,7 @@
             }
         }
 
+        // fill table with localStorage
         var list_local = [];
         var temp_list = "";
         temp_list = JSON.parse(localStorage.getItem("list"));
@@ -126,7 +130,7 @@
             }
         }
         
-
+        // fill function
         function fill_table(){
             for(var i=0;i<list_local.length;i++){
             var row = table.insertRow();
@@ -145,6 +149,7 @@
         }
         fill_table();
 
+        // sort function
         function sort_table(){
             list_local.sort(function(a,b){
                 if(a.title < b.title){
@@ -158,7 +163,7 @@
             var form_not_valid = 0;
 
             //basic check
-            for (var i = 0; i < 4; i++) {
+            for (var i = 0; i < 5; i++) {
                 if (form_inputs[i].value == "") {
                     form_not_valid++;
                     form_inputs[i].style.borderColor = "red";
