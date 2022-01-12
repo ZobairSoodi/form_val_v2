@@ -30,32 +30,33 @@
         var dt2;
         var par = $("#par");
 
+        
 
-        btn.on("click", function(){
-            fetch(`https://restcountries.com/v3.1/${select.val()}/${inp.val()}`)
-            .then(
-                response => {
-                    if(!response.ok){
-                        return;
-                    }
-                    response.json().then(
-                        data => {
-                            console.log(data);
-                            if(select.val()=="name"){
-                                par.html(`the capital of ${data[0]["name"]["common"]} is ${data[0]["capital"][0]}`);
-                            }
-                            else if(select.val()=="capital"){
-                                par.html(`the country that has ${data[0]["capital"][0]} as a capital is ${data[0]["name"]["common"]}`);
-                            }
-                            else{
-                                alert("select ....");
-                            }
-                        }
-                    )
-                }
-            )
-        }
-        )
+        // btn.on("click", function(){
+        //     fetch(`https://restcountries.com/v3.1/${select.val()}/${inp.val()}`)
+        //     .then(
+        //         response => {
+        //             if(!response.ok){
+        //                 return;
+        //             }
+        //             response.json().then(
+        //                 data => {
+        //                     console.log(data);
+        //                     if(select.val()=="name"){
+        //                         par.html(`the capital of ${data[0]["name"]["common"]} is ${data[0]["capital"][0]}`);
+        //                     }
+        //                     else if(select.val()=="capital"){
+        //                         par.html(`the country that has ${data[0]["capital"][0]} as a capital is ${data[0]["name"]["common"]}`);
+        //                     }
+        //                     else{
+        //                         alert("select ....");
+        //                     }
+        //                 }
+        //             )
+        //         }
+        //     )
+        // }
+        // )
 
         
 
