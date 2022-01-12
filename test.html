@@ -30,7 +30,25 @@
         var dt2;
         var par = $("#par");
 
+        async function fetchCountry(){
+            var response = await fetch(`https://restcountries.com/v3.1/${select.val()}/${inp.val()}`);
+            var data = response.json();
+            return data;
+        }
         
+        btn.on("click", function(){
+            fetchCountry().then(data => {
+                if(select.val()=="name"){
+                    par.html(`the capital of ${data[0]["name"]["common"]} is ${data[0]["capital"][0]}`);
+                }
+                else if(select.val()=="capital"){
+                    par.html(`the country that has ${data[0]["capital"][0]} as a capital is ${data[0]["name"]["common"]}`);
+                }
+                else{
+                    alert("select ....");
+                }
+            })
+        })
 
         // btn.on("click", function(){
         //     fetch(`https://restcountries.com/v3.1/${select.val()}/${inp.val()}`)
