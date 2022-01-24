@@ -33,6 +33,7 @@
         async function fetchCountry(){
             var response = await fetch(`https://restcountries.com/v3.1/${select.val()}/${inp.val()}`);
             var data = response.json();
+            console.log(data)
             return data;
         }
         
